@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+      "outDir": "build/dist",
+      "module": "esnext",
+      "target": "es6",
+      "lib": ["dom", "es5", "es6"],
+      "sourceMap": true,
+      "allowJs": true,
+      "moduleResolution": "node",
+      "rootDir": "src",
+      "forceConsistentCasingInFileNames": true,
+      "noImplicitReturns": true,
+      "noImplicitThis": true,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "suppressImplicitAnyIndexErrors": true,
+      "noUnusedLocals": true,
+      "baseUrl": "./",
+    },
+    "exclude": [
+      "node_modules",
+      "build/*",
+    ]
+  }
+  

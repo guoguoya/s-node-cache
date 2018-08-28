@@ -1,0 +1,31 @@
+#editor config 
+#plase download editorconfig plugin in your IDE
+
+[*]
+charset=utf-8
+end_of_line = lf
+insert_final_newline=true
+
+[{*.js, *.jsx}]
+indent_style=space
+indent_size=2
+
+[*.tsx]
+indent_style=space
+indent_size=2
+
+[*.ts]
+indent_style=space
+indent_size=2
+
+[.json]
+indent_style=space
+indent_size=2
+
+[{*.css,*.less, *.scss}]
+indent_style=space
+indent_size=2
+
+[*.html]
+indent_style=space
+indent_size=4
