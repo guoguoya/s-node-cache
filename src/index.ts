@@ -2,7 +2,7 @@ import { CacheItem } from "./CacheItem";
 import { Buffer } from 'buffer';
 
 export interface Imethod {
-  get(key: string): CacheItem;
+  get(key: string): any;
   set(key: string, value: Object): void;
   empty(): void;
   showInfo(): void;
@@ -28,7 +28,7 @@ export class SimpleCache implements Imethod {
         if (this.cacheMap[key] !== undefined) {
           this.resetPriority();
           this.resetItem(this.cacheMap[key], new Date(), 1);
-          return this.cacheMap[key];
+          return JSON.parse(this.cacheMap[key].value.toString());
         } else {
           throw new Error('no such key');
         }
