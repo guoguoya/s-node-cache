@@ -1,8 +1,8 @@
 {
   "name": "s-node-cache",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "cache",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --declaration --declarationDir types",
