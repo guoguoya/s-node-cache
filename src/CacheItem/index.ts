@@ -1,6 +1,6 @@
 import { Buffer } from 'buffer';
 
-interface ICacheItem {
+export interface ICacheItem {
   key: string;
   value: Buffer;
   priority: number;
@@ -8,7 +8,7 @@ interface ICacheItem {
   lastModify: Date;
 }
 
-export default class CacheItem implements ICacheItem {
+export class CacheItem implements ICacheItem {
   public key: string;
   public value: Buffer;
   public priority: number;

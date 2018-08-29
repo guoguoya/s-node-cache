@@ -1,2 +1,6 @@
 src/
-
+.npmignore
+.gitignore
+.editorconfig
+tsconfig.json
+tslint.jsonyarn.lock

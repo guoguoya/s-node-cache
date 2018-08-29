@@ -1,18 +1,18 @@
-import CacheItem from "./CacheItem";
+import { CacheItem } from "./CacheItem";
 import { Buffer } from 'buffer';
 
-interface Imethod {
+export interface Imethod {
   get(key: string): CacheItem;
   set(key: string, value: Object): void;
   empty(): void;
   showInfo(): void;
 }
 
-interface configParam {
+export interface configParam {
   maxLength: number;
 }
 
-export default class SimpleCache implements Imethod {
+export class SimpleCache implements Imethod {
     private maxLength = 10;
     private cacheMap = {};
     private lastResetTime = new Date();
@@ -26,8 +26,9 @@ export default class SimpleCache implements Imethod {
     public get(key: string) {
       try {
         if (this.cacheMap[key] !== undefined) {
-          return this.cacheMap[key];
           this.resetPriority();
+          this.resetItem(this.cacheMap[key], new Date(), 1);
+          return this.cacheMap[key];
         } else {
           throw new Error('no such key');
         }
@@ -50,12 +51,12 @@ export default class SimpleCache implements Imethod {
             this.cacheMap[key] = item;
           }
         } else {
-            this.cacheMap[key].value = Buffer.from(JSON.stringify(value));
-            this.resetItem(this.cacheMap[key], new Date(), 1);
+          this.cacheMap[key].value = Buffer.from(JSON.stringify(value));
+          this.resetItem(this.cacheMap[key], new Date(), 1);
         }
       } catch(e) {
         this.handleError(e);
-      } 
+      }
     }
 
     public empty() {
@@ -67,20 +68,33 @@ export default class SimpleCache implements Imethod {
       console.log(JSON.stringify(this.cacheMap));
     }
 
-    private formatItem(key: string, value: Object) {
+    private formatItem(key: string, value: Object): CacheItem {
       return new CacheItem(key, value);
     }
 
-    private resetPriority() {
-      Object.keys(this.cacheMap).forEach((key: string) => {
+    private resetPriority(): CacheItem | undefined {
+      const keys = Object.keys(this.cacheMap);
+      if (keys.length <= 0) {
+        return undefined;
+      }
+
+      let removeItem = this.cacheMap[keys[0]];
+
+      keys.forEach((key: string) => {
         this.resetItem(this.cacheMap[key], this.lastResetTime);
+        if (removeItem.priority > this.cacheMap[key].priority) {
+          removeItem = this.cacheMap[key];
+        }
       });
+
+      return removeItem;
     }
 
     private resetItem(item: any, now: Date = new Date(), up: number = 0) {
       const { createTime, lastModify, priority } = item;
       const x = Math.floor((lastModify.getTime() - createTime.getTime()) / this.baseDate) + 1;
       const y = Math.floor((now.getTime() - createTime.getTime()) / this.baseDate) + 1;
+
       item.priority = priority * x / y + up;
       item.lastModify = now;
     }
